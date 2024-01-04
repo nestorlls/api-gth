@@ -8,14 +8,14 @@ import { Server } from '@presentation/server';
 })();
 
 async function main() {
-  const { PORT, API_NAME, MONGO_DB_URL, MONGO_DB_NAME } = envs;
+  const { PORT, MONGO_DB_URL, MONGO_DB_NAME, API_URL } = envs;
   const mongoDB = new MongoDB();
   const connected = await mongoDB.connection({ mongoUrl: MONGO_DB_URL, dbName: MONGO_DB_NAME });
 
   const server = new Server({
     port: PORT,
-    apiname: API_NAME,
-    routes: Routes.getRoutes(),
+    apiUrl: API_URL,
+    routes: Routes.routes(API_URL),
   });
 
   if (connected) {
