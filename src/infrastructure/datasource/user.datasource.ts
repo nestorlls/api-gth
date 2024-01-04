@@ -8,8 +8,8 @@ import { UserDatasource } from '@domain/abstracts/datasource';
 export class UserDataSourceImpl implements UserDatasource {
   constructor(private readonly model: typeof User) {}
 
-  async getAllUsers(args: PaginationDto): Promise<ReturnWithPaginateDto<UserEntity>> {
-    const { page, limit } = args;
+  async getAllUsers(dto: PaginationDto): Promise<ReturnWithPaginateDto<UserEntity>> {
+    const { page, limit } = dto;
     const [total, users] = await Promise.all([
       this.model.countDocuments(),
       this.model
@@ -28,24 +28,36 @@ export class UserDataSourceImpl implements UserDatasource {
     });
   }
 
-  async getUserById(args: string): Promise<UserEntity> {
-    const id = args;
-    const userFound = await this.model.findById(id);
-    if (!userFound) throw CustomeError.notFound('User not found');
-    return UserEntity.fromObject(userFound.toJSON());
+  async getUserById(id: string): Promise<UserEntity> {
+    let user;
+    try {
+      user = await this.model.findById(id);
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+    if (!user) throw CustomeError.notFound('User not found');
+    return UserEntity.fromObject(user.toJSON());
   }
 
-  async updateUser(args: UpdateUserDto): Promise<UserEntity> {
-    const { id } = args;
-    await this.getUserById(id);
-    const userUpdated = await this.model.updateOne({ id }, args, { new: true });
-    return UserEntity.fromObject(userUpdated);
+  async updateUser(dto: UpdateUserDto): Promise<UserEntity> {
+    let user;
+    try {
+      user = await this.model.findByIdAndUpdate({ _id: dto.id }, dto, { new: true });
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+    if (!user) throw CustomeError.notFound('User not found');
+
+    return UserEntity.fromObject(user!.toJSON());
   }
 
-  async deleteUser(args: string): Promise<UserEntity> {
-    const id = args;
-    await this.getUserById(id);
-    const userDeleted = await this.model.deleteOne({ id });
-    return UserEntity.fromObject(userDeleted);
+  async deleteUser(id: string): Promise<UserEntity> {
+    let user;
+    try {
+      user = await this.model.findByIdAndDelete({ _id: id });
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+    return UserEntity.fromObject(user);
   }
 }
