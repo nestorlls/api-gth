@@ -1,9 +1,10 @@
-import { UserService } from '@domain/abstracts/services';
+import { Request, Response } from 'express';
+
+import { useCases } from '@domain/use-cases/use-cases';
 import { UpdateUserDto } from '@domain/dtos';
 import { PaginationDto } from '@domain/dtos/shared';
-import { useCases } from '@domain/use-cases/use-cases';
+import { UserService } from '@domain/abstracts/services';
 import { HandleError } from '@presentation/errors/handle.error';
-import { Request, Response } from 'express';
 
 export class UserController {
   constructor(private readonly service: UserService) {}
