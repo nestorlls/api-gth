@@ -13,7 +13,6 @@ export class FavoriteEntity {
     this.contacted = contacted;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromObject(props: { [key: string]: any }): FavoriteEntity {
     const { property, user, contacted } = props;
 

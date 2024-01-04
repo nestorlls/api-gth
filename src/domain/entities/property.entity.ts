@@ -36,7 +36,6 @@ export class PropertyEntity {
     this.user = props.user;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromObject(props: { [key: string]: any }): PropertyEntity {
     if (!props.id) throw CustomeError.badRequest('Missing property id');
     if (!Validator.isMongoId(props.id)) throw CustomeError.badRequest('Invalid property id');

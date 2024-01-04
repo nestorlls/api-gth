@@ -21,11 +21,10 @@ export class UserEntity {
     this.password = password;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromObject(props: { [key: string]: any }): UserEntity {
     const { id, name, email, phone, role, avatar } = props;
 
-    if (!id) throw CustomeError.badRequest('Missing id');
+    if (!id) throw CustomeError.badRequest('Missing user id');
     if (!Validator.isMongoId(id)) throw CustomeError.badRequest('Invalid user id');
     if (!name) throw CustomeError.badRequest('Missing name');
     if (!email) throw CustomeError.badRequest('Missing email');
