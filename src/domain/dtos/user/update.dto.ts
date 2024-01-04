@@ -21,7 +21,6 @@ export class UpdateUserDto {
   }
 
   get values() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const currentValues: { [key: string]: any } = {};
 
     if (this.name) currentValues.name = this.name;
@@ -37,8 +36,8 @@ export class UpdateUserDto {
   static create(props: UpdateUserDto): [CustomeError?, UpdateUserDto?] {
     const { id } = props;
 
-    if (!id) return [CustomeError.badRequest('Missing user id')];
-    if (!Validator.isMongoId(id)) return [CustomeError.badRequest('Invalid user id')];
+    if (!id) return [CustomeError.badRequest('Missing user id to update')];
+    if (!Validator.isMongoId(id)) return [CustomeError.badRequest('Invalid user id to update')];
 
     return [undefined, new UpdateUserDto(props)];
   }
