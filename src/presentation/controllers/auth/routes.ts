@@ -1,10 +1,10 @@
 import { Router } from 'express';
 
-import { AuthController } from './controller';
-import { AuthServices } from '@presentation/service/auth.service';
-import { AuthRespositoryImpl } from '@infrastructure/repository';
-import { AuthDatasourceImpl } from '@infrastructure/datasource';
 import { User } from '@data/mongo/models';
+import { AuthDatasourceImpl } from '@infrastructure/datasource';
+import { AuthRespositoryImpl } from '@infrastructure/repository';
+import { AuthServices } from '@presentation/service';
+import { AuthController } from './controller';
 
 export class AuthRoutes {
   static get routes(): Router {
