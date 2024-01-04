@@ -57,14 +57,14 @@ export class UpdatePropertyDto {
     return currentValues;
   }
 
-  static create(props: UpdatePropertyDto): [CustomeError?, UpdatePropertyDto?] {
+  static create(props: { [key: string]: any }): [CustomeError?, UpdatePropertyDto?] {
     const { id, user } = props;
 
-    if (id) return [CustomeError.badRequest('Missing property id')];
-    if (!Validator.isMongoId(id)) return [CustomeError.badRequest('Invalid property id')];
-    if (!user) return [CustomeError.badRequest('Missing user id')];
-    if (!Validator.isMongoId(user)) return [CustomeError.badRequest('Invalid user id')];
+    if (!id) return [CustomeError.badRequest('Missing property Id in updateDto')];
+    if (!Validator.isMongoId(id)) return [CustomeError.badRequest('Invalid property Id in updateDto')];
+    if (!user) return [CustomeError.badRequest('Missing user Id in updateDto')];
+    if (!Validator.isMongoId(user)) return [CustomeError.badRequest('Invalid user Id in updateDto')];
 
-    return [undefined, new UpdatePropertyDto(props)];
+    return [undefined, new UpdatePropertyDto(props as UpdatePropertyDto)];
   }
 }
