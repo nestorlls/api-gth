@@ -4,25 +4,27 @@ import { CustomeError } from '@domain/errors';
 export class CreatePropertyDto {
   public readonly type: string;
   public readonly address: string;
+  public readonly rent: number;
   public readonly maintance: number;
   public readonly price: number;
   public readonly propertyType: string;
-  public readonly rooms: number;
+  public readonly bedrooms: number;
   public readonly bathrooms: number;
   public readonly area: number;
   public readonly petAllowed: boolean;
   public readonly description: string;
-  public readonly images: string[];
+  public readonly images?: string[];
   public readonly status: string;
   public readonly user: string;
 
   private constructor(props: CreatePropertyDto) {
     this.type = props.type;
     this.address = props.address;
+    this.rent = props.rent;
     this.maintance = props.maintance;
     this.price = props.price;
     this.propertyType = props.propertyType;
-    this.rooms = props.rooms;
+    this.bedrooms = props.bedrooms;
     this.bathrooms = props.bathrooms;
     this.area = props.area;
     this.petAllowed = props.petAllowed;
@@ -36,49 +38,58 @@ export class CreatePropertyDto {
     const {
       type,
       address,
+      rent = 0,
       maintance = 0,
       price = 0,
       propertyType,
-      rooms = 0,
+      bedrooms = 0,
       bathrooms = 0,
       area = 0,
       petAllowed = false,
       description,
-      images,
       status,
       user,
     } = props;
 
     let petAvailable = petAllowed;
+    let hasStatus = status;
 
     const validTypes = ['sale', 'rent'];
-    const validPropertyTypes = ['House', 'Apartment'];
-    const validStatus = ['active', 'inactive'];
+    const validPropertyTypes = ['flat', 'house', 'apartment'];
 
     if (typeof petAllowed !== 'boolean') petAvailable = petAllowed === 'true';
-    if (!type) return [CustomeError.badRequest('Type is required')];
+    if (!type) return [CustomeError.badRequest('Type is required in create property dto')];
     if (!validTypes.includes(type))
-      return [CustomeError.badRequest(`${type} is not a valid type. Valid types: ${validTypes}`)];
-    if (!address) return [CustomeError.badRequest('Address is required')];
-    if (!maintance) return [CustomeError.badRequest('Maintance is required')];
-    if (!price) return [CustomeError.badRequest('Price is required')];
-    if (isNaN(price)) return [CustomeError.badRequest('Price must be a number')];
-    if (!propertyType) return [CustomeError.badRequest('Property Type is required')];
+      return [
+        CustomeError.badRequest(
+          `${type} is not a valid type in create property dto. Valid types: ${validTypes.join(', ')}`,
+        ),
+      ];
+    if (!address) return [CustomeError.badRequest('Address is required in create property dto')];
+    if (!rent) return [CustomeError.badRequest('Rent is required in create property dto')];
+    if (isNaN(rent)) return [CustomeError.badRequest('Rent must be a number in create property dto')];
+    if (!maintance) return [CustomeError.badRequest('Maintance is required in create property dto')];
+    if (isNaN(maintance)) return [CustomeError.badRequest('Maintance must be a number in create property dto')];
+    if (!price) return [CustomeError.badRequest('Price is required in create property dto')];
+    if (isNaN(price)) return [CustomeError.badRequest('Price must be a number in create property dto')];
+    if (!propertyType) return [CustomeError.badRequest('Property Type is required in create property dto')];
     if (!validPropertyTypes.includes(propertyType))
-      return [CustomeError.badRequest(`${propertyType} is not a valid type. Valid types: ${validPropertyTypes}`)];
-    if (!rooms) return [CustomeError.badRequest('Rooms is required')];
-    if (isNaN(rooms)) return [CustomeError.badRequest('Rooms must be a number')];
-    if (!bathrooms) return [CustomeError.badRequest('Bathrooms is required')];
-    if (isNaN(bathrooms)) return [CustomeError.badRequest('Bathrooms must be a number')];
-    if (!area) return [CustomeError.badRequest('Area is required')];
-    if (isNaN(area)) return [CustomeError.badRequest('Area must be a number')];
-    if (!description) return [CustomeError.badRequest('Description is required')];
-    if (!images) return [CustomeError.badRequest('Images is required')];
-    if (!status) return [CustomeError.badRequest('Status is required')];
-    if (!validStatus.includes(status))
-      return [CustomeError.badRequest(`${status} is not a valid type. Valid types: ${validStatus}`)];
-    if (!user) return [CustomeError.badRequest('User Id is required')];
-    if (!Validator.isMongoId(user)) return [CustomeError.badRequest('Invalid user id')];
+      return [
+        CustomeError.badRequest(
+          `${propertyType} is not a valid type in create property dto. Valid types: ${validPropertyTypes.join(', ')}`,
+        ),
+      ];
+    if (!bedrooms) return [CustomeError.badRequest('Rooms is required in create property dto')];
+    if (isNaN(bedrooms)) return [CustomeError.badRequest('Rooms must be a number in create property dto')];
+    if (!bathrooms) return [CustomeError.badRequest('Bathrooms is required in create property dto')];
+    if (isNaN(bathrooms)) return [CustomeError.badRequest('Bathrooms must be a number in create property dto')];
+    if (!area) return [CustomeError.badRequest('Area is required in create property dto')];
+    if (isNaN(area)) return [CustomeError.badRequest('Area must be a number in create property dto')];
+    if (!description) return [CustomeError.badRequest('Description is required in create property dto')];
+    // if (!images) return [CustomeError.badRequest('Images is required')];
+    if (!user) return [CustomeError.badRequest('User Id is required in create property dto')];
+    if (!Validator.isMongoId(user)) return [CustomeError.badRequest('Invalid user Id in create property dto')];
+    if (typeof status !== 'boolean') hasStatus = status === 'true' ? 'active' : 'inactive';
 
     return [
       undefined,
@@ -87,10 +98,11 @@ export class CreatePropertyDto {
         maintance: Number(maintance),
         price: Number(price),
         propertyType,
-        rooms: Number(rooms),
+        bedrooms: Number(bedrooms),
         bathrooms: Number(bathrooms),
         area: Number(area),
         petAllowed: petAvailable,
+        status: hasStatus,
       }),
     ];
   }
