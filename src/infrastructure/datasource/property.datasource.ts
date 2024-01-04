@@ -29,35 +29,54 @@ export class PropertyDataSourceImpl implements PropertyDatasource {
     });
   }
 
-  async getAllPropertiesByUser(args: string): Promise<PropertyEntity[]> {
-    const id = args;
+  async getAllPropertiesByUser(id: string): Promise<PropertyEntity[]> {
     const properties = await this.model.find({ user: id });
     return properties.map((property) => PropertyEntity.fromObject(property.toJSON()));
   }
 
-  async getPropertyById(args: string): Promise<PropertyEntity> {
-    const id = args;
-    const propertyFound = await this.model.findById(id);
-    if (!propertyFound) throw CustomeError.notFound('Property not found');
-    return PropertyEntity.fromObject(propertyFound.toJSON());
+  async getPropertyById(id: string): Promise<PropertyEntity> {
+    let property;
+    try {
+      property = await this.model.findById(id).populate('user', 'name email phone');
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+    if (!property) throw CustomeError.notFound('Property not found');
+    return PropertyEntity.fromObject(property.toJSON());
   }
 
-  async createProperty(args: CreatePropertyDto): Promise<PropertyEntity> {
-    const newProperty = await this.model.create(args);
-    return PropertyEntity.fromObject(newProperty.toJSON());
+  async createProperty(dto: CreatePropertyDto): Promise<PropertyEntity> {
+    let property;
+    try {
+      property = await this.model.create(dto);
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+
+    return PropertyEntity.fromObject(property.toJSON());
   }
 
-  async updateProperty(args: UpdatePropertyDto): Promise<PropertyEntity> {
-    const { id } = args;
-    await this.getPropertyById(id);
-    const propertyUpdated = await this.model.updateOne({ id }, args, { new: true });
-    return PropertyEntity.fromObject(propertyUpdated);
+  async updateProperty(dto: UpdatePropertyDto): Promise<PropertyEntity> {
+    let property;
+    try {
+      property = await this.model.findByIdAndUpdate({ _id: dto.id }, dto, { new: true });
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+    if (!property) throw CustomeError.notFound('Property not found');
+
+    return PropertyEntity.fromObject(property.toJSON());
   }
 
-  async deleteProperty(args: string): Promise<PropertyEntity> {
-    const id = args;
-    await this.getPropertyById(id);
-    const propertyDeleted = await this.model.deleteOne({ id });
-    return PropertyEntity.fromObject(propertyDeleted);
+  async deleteProperty(id: string): Promise<PropertyEntity> {
+    let property;
+    try {
+      property = await this.model.findByIdAndDelete({ _id: id });
+    } catch (error) {
+      throw CustomeError.internalServerError(`${error}`);
+    }
+
+    if (!property) throw CustomeError.notFound('Property not found');
+    return PropertyEntity.fromObject(property);
   }
 }
