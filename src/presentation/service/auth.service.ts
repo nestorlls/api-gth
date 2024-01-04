@@ -12,7 +12,7 @@ export class AuthServices implements AuthService {
     let isMatch, token;
     try {
       isMatch = BcryptAdapter.compare(dto.password, password!);
-      token = await JwtAdapter.generateToken({ id: user.id, email: user.email }, '1h');
+      token = await this.generateToken({ id: user.id, email: user.email });
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
@@ -29,7 +29,7 @@ export class AuthServices implements AuthService {
 
     let token;
     try {
-      token = await JwtAdapter.generateToken({ id: user.id, email: user.email }, '1h');
+      token = await this.generateToken({ id: user.id, email: user.email });
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
@@ -37,5 +37,9 @@ export class AuthServices implements AuthService {
     if (!token) throw CustomeError.internalServerError('Error generating token');
 
     return { user, token };
+  }
+
+  private async generateToken(user: any) {
+    return await JwtAdapter.generateToken(user);
   }
 }
