@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
-import { AuthRoutes } from './controllers/auth/routes';
+import { AuthRoutes } from './controllers/auth';
+import { UserRoutes } from './controllers/user';
+import { PropertyRoutes } from './controllers/property';
 
 export class Routes {
   static routes(apiUrl: string): Router {
@@ -8,6 +10,8 @@ export class Routes {
     const apiRouter = Router();
 
     apiRouter.use('/auth', AuthRoutes.routes);
+    apiRouter.use('/users', UserRoutes.routes);
+    apiRouter.use('/properties', PropertyRoutes.routes);
 
     router.use(apiUrl, apiRouter);
 
