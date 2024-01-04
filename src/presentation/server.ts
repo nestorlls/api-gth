@@ -4,22 +4,22 @@ import helmet from 'helmet';
 
 interface IServer {
   port: number;
-  apiname: string;
+  apiUrl: string;
   routes: Router;
 }
 
 export class Server {
   private readonly app = express();
   private readonly port: number;
-  private readonly apiname: string;
+  private readonly apiUrl: string;
   private readonly routes: Router;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private serverListener: any;
 
   constructor(props: IServer) {
-    const { port, apiname, routes } = props;
+    const { port, apiUrl, routes } = props;
     this.port = port;
-    this.apiname = apiname;
+    this.apiUrl = apiUrl;
     this.routes = routes;
   }
 
@@ -33,7 +33,7 @@ export class Server {
     this.app.use(this.routes);
 
     this.serverListener = this.app.listen(this.port, () => {
-      console.log(`Server running at http://localhost:${this.port}/${this.apiname}`);
+      console.log(`Server running at http://localhost:${this.port}${this.apiUrl}`);
     });
   }
 
