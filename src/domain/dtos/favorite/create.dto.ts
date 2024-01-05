@@ -3,23 +3,18 @@ import { CustomeError } from '@domain/errors';
 
 export class CreateFavoriteDto {
   private constructor(
-    public readonly userId: string,
-    public readonly propertyId: string,
-    public readonly contacted?: boolean,
+    public readonly user: string,
+    public readonly property: string,
   ) {}
 
   static create(props: CreateFavoriteDto): [CustomeError?, CreateFavoriteDto?] {
-    const { userId, propertyId, contacted = false } = props;
+    const { user, property } = props;
 
-    let isContacted = contacted;
+    if (!user) return [CustomeError.badRequest('User Id is required to create favorite')];
+    if (!Validator.isMongoId(user)) return [CustomeError.badRequest('Invalid user id to create favorite')];
+    if (!property) return [CustomeError.badRequest('Property Id is required to add favorite')];
+    if (!Validator.isMongoId(property)) return [CustomeError.badRequest('Invalid property id to add favorite')];
 
-    if (typeof contacted !== 'boolean') isContacted = contacted === 'true';
-    if (!userId) return [CustomeError.badRequest('User Id is required')];
-    if (!Validator.isMongoId(userId)) return [CustomeError.badRequest('Invalid user id')];
-    if (!propertyId) return [CustomeError.badRequest('Property Id is required')];
-    if (!Validator.isMongoId(propertyId)) return [CustomeError.badRequest('Invalid property id')];
-    if (!contacted && typeof contacted !== 'boolean') return [CustomeError.badRequest('Contacted is required')];
-
-    return [undefined, new CreateFavoriteDto(userId, propertyId, isContacted)];
+    return [undefined, new CreateFavoriteDto(user, property)];
   }
 }
