@@ -8,6 +8,6 @@ export class GetAllFavorites implements IGetAllUserFavorites {
   constructor(private readonly service: FavoriteService) {}
 
   execute(userId: string): Promise<FavoriteEntity[]> {
-    return this.service.getFavorites(userId);
+    return this.service.getUserFavorites(userId);
   }
 }
