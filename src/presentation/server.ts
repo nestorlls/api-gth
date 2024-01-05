@@ -13,7 +13,6 @@ export class Server {
   private readonly port: number;
   private readonly apiUrl: string;
   private readonly routes: Router;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private serverListener: any;
 
   constructor(props: IServer) {
