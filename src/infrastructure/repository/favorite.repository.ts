@@ -1,6 +1,6 @@
 import { FavoriteDatasource } from '@domain/abstracts/datasource';
 import { FavoriteRepository } from '@domain/abstracts/repository';
-import { CreateFavoriteDto, UpdateFavoriteDto } from '@domain/dtos';
+import { CreateFavoriteDto } from '@domain/dtos';
 import { FavoriteEntity } from '@domain/entities';
 
 export class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -12,10 +12,6 @@ export class FavoriteRepositoryImpl implements FavoriteRepository {
 
   async addFavorite(dto: CreateFavoriteDto): Promise<FavoriteEntity> {
     return await this.datasource.addFavorite(dto);
-  }
-
-  async updateFavorite(dto: UpdateFavoriteDto): Promise<FavoriteEntity> {
-    return await this.datasource.updateFavorite(dto);
   }
 
   async removeFavorite(id: string): Promise<FavoriteEntity> {
