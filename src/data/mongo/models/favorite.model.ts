@@ -7,11 +7,10 @@ const favoriteSchema = new Schema({
     ref: 'Property',
     required: [true, 'Property id is required'],
   },
-  contanted: { type: Boolean, default: false },
+  contacted: { type: Boolean, default: false },
 });
 
 favoriteSchema.methods.toJSON = function () {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { __v, _id: id, ...favorite } = this.toObject();
   return { id, ...favorite };
 };
