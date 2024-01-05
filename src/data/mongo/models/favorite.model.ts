@@ -7,7 +7,6 @@ const favoriteSchema = new Schema({
     ref: 'Property',
     required: [true, 'Property id is required'],
   },
-  contacted: { type: Boolean, default: false },
 });
 
 favoriteSchema.methods.toJSON = function () {
