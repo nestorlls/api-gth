@@ -2,3 +2,4 @@ export * from './auth.service';
 export * from './user.service';
 export * from './property.service';
 export * from './favoriteContact.service';
+export * from './upload.service';
