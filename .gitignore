@@ -2,6 +2,7 @@
 node_modules
 dist
 mongo-db
-
+coverage
 # files
 .env
+.env.test
