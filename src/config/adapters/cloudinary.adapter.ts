@@ -2,8 +2,10 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import { UploadFileAbstract } from '@domain/abstracts/services';
 import { CustomeError } from '@domain/errors';
+import { DeleteFileDto, UploadFileDto } from '@domain/dtos';
+import { UploadFileEntity } from '@domain/entities';
 
-export class ClaudinaryAdapter implements UploadFileAbstract {
+export class CloudinaryAdapter implements UploadFileAbstract {
   private readonly cloudinary = cloudinary;
 
   constructor(
@@ -18,30 +20,28 @@ export class ClaudinaryAdapter implements UploadFileAbstract {
     });
   }
 
-  async uploadFile(files: Express.Multer.File[], type: string): Promise<string[]> {
+  async uploadFile(dto: UploadFileDto): Promise<UploadFileEntity[]> {
     const options = {
       unique_filename: true,
       overwrite: true,
-      folder: `get-that-home/${type}`,
+      folder: `get-that-home/${dto.type}`,
     };
+
+    const objectFiles = [];
     try {
-      const filesArray = [];
-      for (const file of files) {
-        console.log(file.path);
-        const result = cloudinary.uploader.upload(file.path, options);
-        if (result) {
-          filesArray.push((await result).secure_url);
-        }
+      for (const file of dto.files) {
+        const response = await cloudinary.uploader.upload(file.path, options);
+        objectFiles.push({ ...response, originalName: file.originalname });
       }
 
-      return filesArray;
+      return objectFiles.map(UploadFileEntity.fromObject);
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
   }
 
-  async deleteFile(files: string[], type: string): Promise<boolean | string> {
-    console.log(files);
+  async deleteFile(dto: DeleteFileDto): Promise<boolean | string> {
+    const { files, type } = dto;
 
     try {
       const filesWithFolder = files.map((file) => {
