@@ -9,7 +9,9 @@
     "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node ./dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +34,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/compression": "^1.7.5",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.11",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.10.6",
@@ -42,8 +45,11 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
+    "jest": "^29.7.0",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
