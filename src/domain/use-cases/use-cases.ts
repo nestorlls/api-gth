@@ -9,6 +9,7 @@ import {
   UnContactAdvertiser,
 } from './userFavoritesAndContacted';
 import { CreateProperty, DeleteProperty, GetAllProperties, GetPropertyById, UpdateProperty } from './properties';
+import { DeleteFile, UploadFile } from './uploadFile';
 
 export const useCases = {
   auth: {
@@ -37,5 +38,9 @@ export const useCases = {
   },
   userProperties: {
     GetUserProperties,
+  },
+  UploadFile: {
+    UploadFile,
+    DeleteFile,
   },
 };
