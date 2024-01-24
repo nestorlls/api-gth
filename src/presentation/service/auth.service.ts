@@ -3,6 +3,7 @@ import { AuthRepository } from '@domain/abstracts/repository';
 import { AuthService, IUserAuth } from '@domain/abstracts/services/auth';
 import { LoginDto, RegisterDto } from '@domain/dtos';
 import { CustomeError } from '@domain/errors';
+import { envs } from '@config/environments';
 
 export class AuthServices implements AuthService {
   constructor(private readonly repository: AuthRepository) {}
@@ -40,6 +41,6 @@ export class AuthServices implements AuthService {
   }
 
   private async generateToken(user: any) {
-    return await JwtAdapter.generateToken(user);
+    return await JwtAdapter.generateToken(user, envs.JWT_SECRET);
   }
 }

@@ -1,7 +1,9 @@
+import { NextFunction, Request, Response } from 'express';
+
 import { JwtAdapter } from '@config/adapters';
 import { User } from '@data/mongo/models';
 import { UserEntity } from '@domain/entities';
-import { NextFunction, Request, Response } from 'express';
+import { envs } from '@config/environments';
 
 export class AuthMiddleware {
   static authenticate = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +19,7 @@ export class AuthMiddleware {
     const [, token] = authorization!.split(' ');
 
     try {
-      const payload = await JwtAdapter.verifytoken<{ id: string }>(token);
+      const payload = await JwtAdapter.verifytoken<{ id: string }>(token, envs.JWT_SECRET);
       if (!payload) {
         return this.unAuthorized('Invalid token', res);
       }
