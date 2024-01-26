@@ -8,6 +8,7 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
     jest.clearAllMocks();
     jest.resetModules();
   });
+  const adapter = new CloudinaryAdapter('cloud_name', 'api_key', 'api_secret');
 
   it('should upload a file to cloudinary successfully', async () => {
     /** Mock dependencies */
@@ -41,8 +42,7 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
     cloudinary.uploader.upload = jest.fn().mockReturnValue(mockResponse);
 
     /** Execution */
-    const cloudinaryAdapter = new CloudinaryAdapter('cloud_name', 'api_key', 'api_secret');
-    const result = await cloudinaryAdapter.uploadFile(mockUploadFileDto!);
+    const result = await adapter.uploadFile(mockUploadFileDto!);
 
     /** Assertions */
     expect(result).toEqual([
@@ -95,9 +95,7 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
 
     cloudinary.uploader.upload = jest.fn().mockRejectedValue(new Error('Upload failed'));
 
-    const cloudinaryAdapter = new CloudinaryAdapter('cloud_name', 'api_key', 'api_secret');
-
-    await expect(cloudinaryAdapter.uploadFile(mockUploadFileDto)).rejects.toThrow(
+    await expect(adapter.uploadFile(mockUploadFileDto)).rejects.toThrow(
       CustomeError.internalServerError('Error: Upload failed'),
     );
   });
@@ -116,8 +114,7 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
     };
 
     cloudinary.api.delete_resources = jest.fn().mockResolvedValue(mockResponse);
-    const cloudinaryAdapter = new CloudinaryAdapter('cloud_name', 'api_key', 'api_secret');
-    const result = await cloudinaryAdapter.deleteFile(mockDeleteFileDto);
+    const result = await adapter.deleteFile(mockDeleteFileDto);
 
     expect(result).toBe(true);
 
@@ -136,7 +133,6 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
       type: 'test',
     };
 
-    const adapter = new CloudinaryAdapter('cloud_name', 'api_key', 'api_secret');
     const mockDeleteResource = jest.spyOn(cloudinary.api, 'delete_resources').mockImplementation(() => {
       throw new Error('Failed to delete resource');
     });
