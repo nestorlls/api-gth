@@ -11,15 +11,19 @@ export class UploadService implements UploadFileAbstract {
 
   async uploadFile(dto: UploadFileDto): Promise<UploadFileEntity[]> {
     const path = `./uploads/${dto.type}`;
+    let files = [];
     try {
-      const files = await this.cloudinary.uploadFile(dto);
-      for (const file of files) {
-        fs.unlinkSync(`${path}/${file.uploadFileName}`);
+      files = await this.cloudinary.uploadFile(dto);
+
+      if (files.length > 0) {
+        for (const file of dto.files) {
+          fs.unlinkSync(`${path}/${file.filename}`);
+        }
       }
-      return files;
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
+    return files.map(UploadFileEntity.fromObject);
   }
   async deleteFile(dto: DeleteFileDto): Promise<string | boolean> {
     return await this.cloudinary.deleteFile(dto);
