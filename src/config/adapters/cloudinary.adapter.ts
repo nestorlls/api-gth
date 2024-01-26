@@ -1,11 +1,34 @@
 import { v2 as cloudinary } from 'cloudinary';
 
-import { UploadFileAbstract } from '@domain/abstracts/services';
-import { CustomeError } from '@domain/errors';
+import { CustomeError } from '@domain/errors/custome.error';
 import { DeleteFileDto, UploadFileDto } from '@domain/dtos';
-import { UploadFileEntity } from '@domain/entities';
 
-export class CloudinaryAdapter implements UploadFileAbstract {
+interface ICloudinary {
+  uploadFile(dto: UploadFileDto): Promise<ICloudinaryResponse[]>;
+  deleteFile(dto: DeleteFileDto): Promise<boolean | string>;
+}
+
+interface ICloudinaryResponse {
+  asset_id: string;
+  public_id: string;
+  version: number;
+  width: number;
+  height: number;
+  format: string;
+  resource_type: 'image' | 'video' | 'raw' | 'auto';
+  created_at: string;
+  tags: string[];
+  bytes: number;
+  type: string;
+  etag: string;
+  url: string;
+  secure_url: string;
+  folder: string;
+  access_mode: string;
+  original_filename: string;
+}
+
+export class CloudinaryAdapter implements ICloudinary {
   private readonly cloudinary = cloudinary;
 
   constructor(
@@ -20,21 +43,40 @@ export class CloudinaryAdapter implements UploadFileAbstract {
     });
   }
 
-  async uploadFile(dto: UploadFileDto): Promise<UploadFileEntity[]> {
+  async uploadFile(dto: UploadFileDto): Promise<ICloudinaryResponse[]> {
     const options = {
       unique_filename: true,
       overwrite: true,
       folder: `get-that-home/${dto.type}`,
     };
 
-    const objectFiles = [];
     try {
+      const objectFiles = [];
       for (const file of dto.files) {
         const response = await cloudinary.uploader.upload(file.path, options);
-        objectFiles.push({ ...response, originalName: file.originalname });
+
+        objectFiles.push({
+          asset_id: response.asset_id,
+          public_id: response.public_id,
+          version: response.version,
+          width: response.width,
+          height: response.height,
+          format: response.format,
+          resource_type: response.resource_type,
+          created_at: response.created_at,
+          tags: response.tags,
+          bytes: response.bytes,
+          type: response.type,
+          etag: response.etag,
+          url: response.url,
+          secure_url: response.secure_url,
+          folder: response.folder,
+          access_mode: response.access_mode,
+          original_filename: response.original_filename,
+        });
       }
 
-      return objectFiles.map(UploadFileEntity.fromObject);
+      return objectFiles;
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
@@ -49,16 +91,15 @@ export class CloudinaryAdapter implements UploadFileAbstract {
         return `get-that-home/${type}/${fileSplited}`;
       });
 
-      if (filesWithFolder.length > 0) {
-        const filesDeleted = await this.cloudinary.api.delete_resources(filesWithFolder, {
-          type: 'upload',
-          resource_type: 'image',
-        });
+      const { length } = filesWithFolder;
 
-        if (Object.values(filesDeleted.deleted).includes('not_found')) return 'File not found';
-        return Object.values(filesDeleted.deleted).includes('deleted');
-      }
-      return true;
+      const filesDeleted =
+        length > 0
+          ? await this.cloudinary.api.delete_resources(filesWithFolder, { type: 'upload', resource_type: 'image' })
+          : null;
+
+      if (Object.values(filesDeleted.deleted).includes('not_found')) return 'File not found';
+      return Object.values(filesDeleted.deleted).includes('deleted');
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
