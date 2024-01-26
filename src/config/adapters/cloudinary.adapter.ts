@@ -26,6 +26,7 @@ interface ICloudinaryResponse {
   folder: string;
   access_mode: string;
   original_filename: string;
+  upload_filename: string;
 }
 
 export class CloudinaryAdapter implements ICloudinary {
@@ -73,6 +74,7 @@ export class CloudinaryAdapter implements ICloudinary {
           folder: response.folder,
           access_mode: response.access_mode,
           original_filename: response.original_filename,
+          upload_filename: `${file.originalname}`,
         });
       }
 
