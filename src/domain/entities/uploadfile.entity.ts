@@ -6,8 +6,8 @@ interface IUploadFile {
   width: number;
   height: number;
   folder: string;
-  uploadFileName: string;
-  originalName: string;
+  upload_fileName: string;
+  original_filename: string;
   format: string;
 }
 
@@ -17,33 +17,33 @@ export class UploadFileEntity {
   public readonly width: number;
   public readonly height: number;
   public readonly folder: string;
-  public readonly uploadFileName: string;
-  public readonly originalName: string;
+  public readonly upload_fileName: string;
+  public readonly original_filename: string;
   public readonly format: string;
 
-  private constructor(props: IUploadFile) {
-    const { asset_id, path, width, height, folder, uploadFileName, originalName, format } = props;
+  constructor(props: IUploadFile) {
+    const { asset_id, path, width, height, folder, upload_fileName, original_filename, format } = props;
     this.asset_id = asset_id;
     this.path = path;
     this.width = width;
     this.height = height;
     this.folder = folder;
-    this.uploadFileName = uploadFileName;
-    this.originalName = originalName;
+    this.upload_fileName = upload_fileName;
+    this.original_filename = original_filename;
     this.format = format;
   }
 
   static fromObject(props: { [key: string]: any }): UploadFileEntity {
-    const { asset_id, width, height, secure_url, folder, original_filename, format, originalName } = props;
+    const { asset_id, width, height, secure_url, folder, original_filename, format, upload_fileName } = props;
 
     if (!asset_id) throw CustomeError.badRequest('Asset id is required');
     if (!width) throw CustomeError.badRequest('Width is required');
     if (!height) throw CustomeError.badRequest('Height is required');
     if (!secure_url) throw CustomeError.badRequest('Secure url is required');
     if (!folder) throw CustomeError.badRequest('Folder is required');
-    if (!original_filename) throw CustomeError.badRequest('Original filename is required');
+    if (!upload_fileName) throw CustomeError.badRequest('Original filename is required');
     if (!format) throw CustomeError.badRequest('Format is required');
-    if (!originalName) throw CustomeError.badRequest('Original name is required');
+    if (!original_filename) throw CustomeError.badRequest('Original name is required');
 
     return new UploadFileEntity({
       asset_id,
@@ -51,8 +51,8 @@ export class UploadFileEntity {
       width,
       height,
       folder,
-      uploadFileName: `${original_filename}.${format}`,
-      originalName,
+      upload_fileName: `${original_filename}.${format}`,
+      original_filename,
       format,
     });
   }
