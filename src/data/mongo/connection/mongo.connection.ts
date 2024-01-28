@@ -12,8 +12,13 @@ export class MongoDB {
   async connection(config: IMongoConfig) {
     const { mongoUrl, dbName } = config;
     try {
-      const connected = await this.mongo.connect(mongoUrl, { dbName });
-      if (connected.STATES.connected === 1) return true;
+      const { STATES } = await this.mongo.connect(mongoUrl, { dbName });
+
+      if (STATES.connected) {
+        return {
+          connected: true,
+        };
+      }
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
