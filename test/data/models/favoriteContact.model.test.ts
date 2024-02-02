@@ -28,8 +28,6 @@ describe('Test data/models/favoritesContact.model.ts', () => {
     const favoriteAndContacted = await FavoriteAndContacted.create(data);
     const result = JSON.parse(JSON.stringify(favoriteAndContacted.toJSON()));
 
-    console.log(result);
-
     expect(result).toEqual(
       expect.objectContaining({
         ...data,
