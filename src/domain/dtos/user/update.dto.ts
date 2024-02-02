@@ -33,12 +33,12 @@ export class UpdateUserDto {
     return currentValues;
   }
 
-  static create(props: UpdateUserDto): [CustomeError?, UpdateUserDto?] {
+  static create(props: { [key: string]: any }): [CustomeError?, UpdateUserDto?] {
     const { id } = props;
 
     if (!id) return [CustomeError.badRequest('Missing user id to update')];
     if (!Validator.isMongoId(id)) return [CustomeError.badRequest('Invalid user id to update')];
 
-    return [undefined, new UpdateUserDto(props)];
+    return [undefined, new UpdateUserDto(props as UpdateUserDto)];
   }
 }
