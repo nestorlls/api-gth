@@ -44,5 +44,7 @@ describe('Test data/models/property.model.ts', () => {
         id: expect.any(String),
       }),
     );
+
+    await Property.findByIdAndDelete(result.id);
   });
 });
