@@ -10,7 +10,7 @@ export class UserEntity {
   public readonly avatar: string | null;
   public readonly password?: string;
 
-  private constructor(props: UserEntity) {
+  constructor(props: UserEntity) {
     const { id, name, email, phone, role, password, avatar } = props;
     this.id = id;
     this.name = name;
