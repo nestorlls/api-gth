@@ -14,11 +14,30 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
     /** Mock dependencies */
     const [error, mockUploadFileDto] = UploadFileDto.create({
       files: [
-        { path: 'path/to/file1', originalname: 'file1.jpg' },
-        { path: 'path/to/file1', originalname: 'file1.jpg' },
+        {
+          path: 'path/to/file1',
+          originalname: 'file1.jpg',
+          fieldname: 'file',
+          encoding: '7bit',
+          mimetype: 'image/jpeg',
+          destination: 'path/to',
+          filename: 'file1.jpg',
+          size: 1234,
+        },
+        {
+          path: 'path/to/file2',
+          originalname: 'file2.jpg',
+          fieldname: 'file',
+          encoding: '7bit',
+          mimetype: 'image/jpeg',
+          destination: 'path/to',
+          filename: 'file2.jpg',
+          size: 1234,
+        },
       ],
       type: 'test',
     });
+
     const mockResponse = {
       asset_id: 'er2sdfs2dadsr4',
       public_id: 'get-that-home/file1.jpg',
@@ -56,6 +75,7 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
         format: 'jpg',
         height: 600,
         original_filename: 'file1.jpg',
+        upload_filename: 'file1.jpg',
         public_id: 'get-that-home/file1.jpg',
         resource_type: 'image',
         secure_url: 'https://res.cloudinary.com/cloud_name/image/upload/file1.jpg',
@@ -75,6 +95,7 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
         format: 'jpg',
         height: 600,
         original_filename: 'file1.jpg',
+        upload_filename: 'file2.jpg',
         public_id: 'get-that-home/file1.jpg',
         resource_type: 'image',
         secure_url: 'https://res.cloudinary.com/cloud_name/image/upload/file1.jpg',
@@ -89,7 +110,18 @@ describe('Test adapters/cloudinary.adapter.ts', () => {
 
   it('should throw internal server error when uploadFile method fails', async () => {
     const mockUploadFileDto = {
-      files: [{ path: 'path/to/file1', originalname: 'file1.jpg' }],
+      files: [
+        {
+          path: 'path/to/file1',
+          originalname: 'file1.jpg',
+          fieldname: 'file',
+          encoding: '7bit',
+          mimetype: 'image/jpeg',
+          destination: 'path/to',
+          filename: 'file1.jpg',
+          size: 1234,
+        },
+      ],
       type: 'test',
     };
 
