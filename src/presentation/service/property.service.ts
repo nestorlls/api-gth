@@ -1,8 +1,7 @@
 import { Validator } from '@config/helpers';
 import { PropertyRepository } from '@domain/abstracts/repository';
 import { PropertyService } from '@domain/abstracts/services';
-import { CreatePropertyDto, UpdatePropertyDto } from '@domain/dtos';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { CreatePropertyDto, PaginationDto, ReturnWithPaginateDto, UpdatePropertyDto } from '@domain/dtos';
 import { PropertyEntity } from '@domain/entities';
 import { CustomeError } from '@domain/errors';
 

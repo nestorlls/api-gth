@@ -1,5 +1,5 @@
 import { UserService } from '@domain/abstracts/services';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos';
 import { UserEntity } from '@domain/entities';
 
 interface IGetAllUsers {

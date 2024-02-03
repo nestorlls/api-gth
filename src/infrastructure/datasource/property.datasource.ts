@@ -1,8 +1,7 @@
 import { Property } from '@data/mongo/models';
 import { CustomeError } from '@domain/errors';
 import { PropertyEntity } from '@domain/entities';
-import { CreatePropertyDto, UpdatePropertyDto } from '@domain/dtos';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { CreatePropertyDto, PaginationDto, ReturnWithPaginateDto, UpdatePropertyDto } from '@domain/dtos';
 import { PropertyDatasource } from '@domain/abstracts/datasource';
 
 export class PropertyDataSourceImpl implements PropertyDatasource {

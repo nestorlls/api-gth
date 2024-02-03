@@ -3,3 +3,4 @@ export * from './favorite';
 export * from './property';
 export * from './user';
 export * from './upload';
+export * from './shared';

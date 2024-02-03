@@ -1,8 +1,7 @@
 import { User } from '@data/mongo/models';
-import { UpdateUserDto } from '@domain/dtos';
+import { PaginationDto, ReturnWithPaginateDto, UpdateUserDto } from '@domain/dtos';
 import { CustomeError } from '@domain/errors';
 import { UserEntity } from '@domain/entities';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
 import { UserDatasource } from '@domain/abstracts/datasource';
 
 export class UserDataSourceImpl implements UserDatasource {

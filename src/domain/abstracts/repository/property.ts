@@ -1,5 +1,4 @@
-import { CreatePropertyDto, UpdatePropertyDto } from '@domain/dtos';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { CreatePropertyDto, PaginationDto, ReturnWithPaginateDto, UpdatePropertyDto } from '@domain/dtos';
 import { PropertyEntity } from '@domain/entities';
 
 export abstract class PropertyRepository {

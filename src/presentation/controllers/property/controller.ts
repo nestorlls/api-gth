@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 
 import { useCases } from '@domain/use-cases/use-cases';
-import { CreatePropertyDto, UpdatePropertyDto } from '@domain/dtos';
-import { PaginationDto } from '@domain/dtos/shared';
+import { CreatePropertyDto, PaginationDto, UpdatePropertyDto } from '@domain/dtos';
 import { PropertyServices } from '@presentation/service';
 import { HandleError } from '@presentation/errors/handle.error';
 

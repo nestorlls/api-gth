@@ -1,7 +1,6 @@
 import { UserDatasource } from '@domain/abstracts/datasource';
 import { UserRepository } from '@domain/abstracts/repository';
-import { UpdateUserDto } from '@domain/dtos';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { PaginationDto, ReturnWithPaginateDto, UpdateUserDto } from '@domain/dtos';
 import { UserEntity } from '@domain/entities';
 
 export class UserRepositoryImpl implements UserRepository {

@@ -1,5 +1,5 @@
 import { PropertyService } from '@domain/abstracts/services';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos';
 import { PropertyEntity } from '@domain/entities';
 
 interface IGetAllProperties {

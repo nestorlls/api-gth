@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 
 import { useCases } from '@domain/use-cases/use-cases';
-import { UpdateUserDto } from '@domain/dtos';
-import { PaginationDto } from '@domain/dtos/shared';
+import { PaginationDto, UpdateUserDto } from '@domain/dtos';
 import { UserService } from '@domain/abstracts/services';
 import { HandleError } from '@presentation/errors/handle.error';
 

@@ -1,7 +1,6 @@
 import { PropertyDatasource } from '@domain/abstracts/datasource';
 import { PropertyRepository } from '@domain/abstracts/repository';
-import { CreatePropertyDto, UpdatePropertyDto } from '@domain/dtos';
-import { PaginationDto, ReturnWithPaginateDto } from '@domain/dtos/shared';
+import { CreatePropertyDto, PaginationDto, ReturnWithPaginateDto, UpdatePropertyDto } from '@domain/dtos';
 import { PropertyEntity } from '@domain/entities';
 
 export class PropertyRepositoryImpl implements PropertyRepository {
