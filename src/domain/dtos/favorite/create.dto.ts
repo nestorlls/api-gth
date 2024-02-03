@@ -9,7 +9,7 @@ export class CreateFavoriteContactAdvDto {
     public readonly contacted?: boolean,
   ) {}
 
-  static create(props: CreateFavoriteContactAdvDto): [CustomeError?, CreateFavoriteContactAdvDto?] {
+  static create(props: { [key: string]: any }): [CustomeError?, CreateFavoriteContactAdvDto?] {
     const { user, property, favorite = false, contacted = false } = props;
 
     if (!user) return [CustomeError.badRequest('User Id is required to create favorite')];
