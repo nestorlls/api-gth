@@ -18,7 +18,7 @@ export class PropertyEntity {
   public readonly status: string;
   public readonly user: string;
 
-  private constructor(props: PropertyEntity) {
+  constructor(props: PropertyEntity) {
     this.id = props.id;
     this.type = props.type;
     this.address = props.address;
