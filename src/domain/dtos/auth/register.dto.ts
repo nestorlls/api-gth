@@ -1,7 +1,7 @@
 import { Validator } from '@config/helpers';
 import { CustomeError } from '@domain/errors';
 
-interface IRegisterOptions {
+export interface IRegisterOptions {
   name: string;
   email: string;
   password: string;
