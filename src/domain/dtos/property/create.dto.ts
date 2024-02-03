@@ -34,7 +34,7 @@ export class CreatePropertyDto {
     this.user = props.user;
   }
 
-  static create(props: CreatePropertyDto): [CustomeError?, CreatePropertyDto?] {
+  static create(props: { [key: string]: any }): [CustomeError?, CreatePropertyDto?] {
     const {
       type,
       address,
@@ -49,6 +49,7 @@ export class CreatePropertyDto {
       description,
       status,
       user,
+      images = [],
     } = props;
 
     let petAvailable = petAllowed;
@@ -103,7 +104,8 @@ export class CreatePropertyDto {
         area: Number(area),
         petAllowed: petAvailable,
         status: hasStatus,
-      }),
+        images,
+      } as CreatePropertyDto),
     ];
   }
 }
