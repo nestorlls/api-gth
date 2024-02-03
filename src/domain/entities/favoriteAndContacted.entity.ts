@@ -7,7 +7,7 @@ export class FavoriteContactedEntity {
   public readonly favorite: boolean;
   public readonly contacted: boolean;
 
-  private constructor(props: FavoriteContactedEntity) {
+  constructor(props: FavoriteContactedEntity) {
     const { id, property, user, favorite, contacted } = props;
     this.id = id;
     this.user = user;
