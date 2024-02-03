@@ -37,7 +37,6 @@ export class UpdatePropertyDto {
   }
 
   get values() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const currentValues: { [key: string]: any } = {};
 
     if (this.type) currentValues.type = this.type;
@@ -49,7 +48,7 @@ export class UpdatePropertyDto {
     if (this.bedRooms) currentValues.bedRooms = this.bedRooms;
     if (this.bathRooms) currentValues.bathRooms = this.bathRooms;
     if (this.area) currentValues.area = this.area;
-    if (this.petAllowed) currentValues.petAllowed = this.petAllowed;
+    currentValues.petAllowed = this.petAllowed;
     if (this.description) currentValues.description = this.description;
     if (this.images) currentValues.images = this.images;
     if (this.status) currentValues.status = this.status;
@@ -58,13 +57,21 @@ export class UpdatePropertyDto {
   }
 
   static create(props: { [key: string]: any }): [CustomeError?, UpdatePropertyDto?] {
-    const { id, user } = props;
+    const { id, user, petAllowed = false } = props;
 
     if (!id) return [CustomeError.badRequest('Missing property Id in updateDto')];
     if (!Validator.isMongoId(id)) return [CustomeError.badRequest('Invalid property Id in updateDto')];
     if (!user) return [CustomeError.badRequest('Missing user Id in updateDto')];
     if (!Validator.isMongoId(user)) return [CustomeError.badRequest('Invalid user Id in updateDto')];
 
-    return [undefined, new UpdatePropertyDto(props as UpdatePropertyDto)];
+    return [
+      undefined,
+      new UpdatePropertyDto({
+        id,
+        user,
+        petAllowed,
+        ...props,
+      } as UpdatePropertyDto),
+    ];
   }
 }
