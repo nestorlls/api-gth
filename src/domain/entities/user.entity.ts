@@ -5,7 +5,7 @@ export class UserEntity {
   public readonly id: string;
   public readonly name: string;
   public readonly email: string;
-  public readonly phone: string;
+  public readonly phone: number;
   public readonly role: string[];
   public readonly avatar: string | null;
   public readonly password?: string;
@@ -32,6 +32,6 @@ export class UserEntity {
     if (!role) throw CustomeError.badRequest('Missing role');
     if (avatar === undefined) throw CustomeError.badRequest('Missing avatar');
 
-    return new UserEntity(props as UserEntity);
+    return new UserEntity({ ...props, phone: Number(phone) } as UserEntity);
   }
 }
