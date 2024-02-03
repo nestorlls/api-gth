@@ -10,7 +10,7 @@ import { Server } from '@presentation/server';
 async function main() {
   const { PORT, MONGO_DB_URL, MONGO_DB_NAME, API_URL } = envs;
   const mongoDB = new MongoDB();
-  const connected = await mongoDB.connection({ mongoUrl: MONGO_DB_URL, dbName: MONGO_DB_NAME });
+  const conntectionResponse = await mongoDB.connection({ mongoUrl: MONGO_DB_URL, dbName: MONGO_DB_NAME });
 
   const server = new Server({
     port: PORT,
@@ -18,7 +18,7 @@ async function main() {
     routes: Routes.routes(API_URL),
   });
 
-  if (connected) {
+  if (conntectionResponse?.connected) {
     console.log('MongoDB connected successfully!');
     server.start();
   }
