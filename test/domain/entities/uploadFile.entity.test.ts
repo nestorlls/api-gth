@@ -22,6 +22,24 @@ describe('Test Upload File Entity', () => {
     expect(uploadFileEntity).toHaveProperty('width', props.width);
   });
 
+  test('should map an object to a UploadFileEntity', () => {
+    const props = {
+      asset_id: 'asset_id',
+      path: 'path',
+      width: 10,
+      height: 10,
+      folder: 'folder',
+      secure_url: 'secure_url',
+      upload_filename: 'upload_filename',
+      original_filename: 'original_filename',
+      format: 'format',
+    };
+
+    const uploadFileEntity = UploadFileEntity.fromObject(props);
+
+    expect(uploadFileEntity).toBeInstanceOf(UploadFileEntity);
+  });
+
   test('should throw an error if pass undefined asset_id', () => {
     expect(() =>
       UploadFileEntity.fromObject({
