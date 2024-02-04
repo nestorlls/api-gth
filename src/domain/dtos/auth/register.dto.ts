@@ -25,7 +25,7 @@ export class RegisterDto {
     this.role = role;
   }
 
-  static create(props: RegisterDto): [CustomeError?, RegisterDto?] {
+  static create(props: { [key: string]: any }): [CustomeError?, RegisterDto?] {
     const { name, email, password, phone, role } = props;
 
     const validRoles = ['homeseeker', 'landlord'];
