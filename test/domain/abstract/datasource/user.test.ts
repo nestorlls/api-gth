@@ -12,7 +12,7 @@ describe('Test Auth datasource abstract class', () => {
     id: '123',
     name: 'john',
     email: 'j@j.com',
-    phone: '123',
+    phone: 123,
     role: ['homeseeker'],
     avatar: '',
     password: '123',
