@@ -1,5 +1,5 @@
-import { Register } from '../../../src/domain/use-cases/auth';
-import { RegisterDto } from '../../../src/domain/dtos/auth';
+import { Register } from '../../../../src/domain/use-cases/auth';
+import { RegisterDto } from '../../../../src/domain/dtos/auth';
 
 describe('Test Register User Case', () => {
   const mockAuthService = {
