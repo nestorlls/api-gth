@@ -67,11 +67,11 @@ export class CreatePropertyDto {
         ),
       ];
     if (!address) return [CustomeError.badRequest('Address is required in create property dto')];
-    if (!rent) return [CustomeError.badRequest('Rent is required in create property dto')];
+    if (rent === undefined) return [CustomeError.badRequest('Rent is required in create property dto')];
     if (isNaN(rent)) return [CustomeError.badRequest('Rent must be a number in create property dto')];
-    if (!maintance) return [CustomeError.badRequest('Maintance is required in create property dto')];
+    if (maintance === undefined) return [CustomeError.badRequest('Maintance is required in create property dto')];
     if (isNaN(maintance)) return [CustomeError.badRequest('Maintance must be a number in create property dto')];
-    if (!price) return [CustomeError.badRequest('Price is required in create property dto')];
+    if (price === undefined) return [CustomeError.badRequest('Price is required in create property dto')];
     if (isNaN(price)) return [CustomeError.badRequest('Price must be a number in create property dto')];
     if (!propertyType) return [CustomeError.badRequest('Property Type is required in create property dto')];
     if (!validPropertyTypes.includes(propertyType))
@@ -80,11 +80,11 @@ export class CreatePropertyDto {
           `${propertyType} is not a valid type in create property dto. Valid types: ${validPropertyTypes.join(', ')}`,
         ),
       ];
-    if (!bedrooms) return [CustomeError.badRequest('Rooms is required in create property dto')];
+    if (bedrooms === undefined) return [CustomeError.badRequest('Rooms is required in create property dto')];
     if (isNaN(bedrooms)) return [CustomeError.badRequest('Rooms must be a number in create property dto')];
-    if (!bathrooms) return [CustomeError.badRequest('Bathrooms is required in create property dto')];
+    if (bathrooms === undefined) return [CustomeError.badRequest('Bathrooms is required in create property dto')];
     if (isNaN(bathrooms)) return [CustomeError.badRequest('Bathrooms must be a number in create property dto')];
-    if (!area) return [CustomeError.badRequest('Area is required in create property dto')];
+    if (area === undefined) return [CustomeError.badRequest('Area is required in create property dto')];
     if (isNaN(area)) return [CustomeError.badRequest('Area must be a number in create property dto')];
     if (!description) return [CustomeError.badRequest('Description is required in create property dto')];
     // if (!images) return [CustomeError.badRequest('Images is required')];
