@@ -104,6 +104,43 @@ describe('Test Property Datasource', () => {
     expect(mockPropertyDatasourceImpl.getPropertyById).toHaveBeenCalledWith(property.id);
   });
 
+  test('sould get all properties by user', async () => {
+    const user = await User.create({
+      name: 'test name',
+      email: 'test email',
+      password: 'test password hashed',
+      phone: '999999999',
+      role: ['homeseeker'],
+      avatar: 'url avatar',
+    });
+
+    const property = await Property.create({
+      type: 'rent',
+      address: 'address test create property',
+      rent: 100,
+      maintance: 100,
+      price: 0,
+      propertyType: 'flat',
+      bedRooms: 1,
+      bathRooms: 1,
+      description: 'test description crate property test',
+      petAllowed: false,
+      area: 100,
+      images: [],
+      status: 'active',
+      user: user.id,
+    });
+
+    const spyGetPropertiesByUser = jest.spyOn(mockPropertyDatasourceImpl, 'getAllPropertiesByUser');
+
+    await mockPropertyDatasourceImpl.getAllPropertiesByUser(user.id);
+
+    expect(spyGetPropertiesByUser).toHaveBeenCalled();
+    expect(spyGetPropertiesByUser).toHaveBeenCalledWith(user.id);
+    expect(spyGetPropertiesByUser).toHaveBeenCalledTimes(1);
+    expect(mockPropertyDatasourceImpl.getAllPropertiesByUser).toHaveBeenCalledWith(user.id);
+  });
+
   test('sould update a property', async () => {
     const property = await Property.create({
       type: 'rent',
