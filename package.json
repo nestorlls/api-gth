@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint --fix . --ext .ts,.js",
-    "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/app.ts",
+    "dev": "docker compose up -d && tsnd -r tsconfig-paths/register --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node ./dist/app.js",
     "docker:test": "docker compose -f docker-compose.test.yaml --env-file .env.test up -d",
