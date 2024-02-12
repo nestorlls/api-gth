@@ -1,5 +1,5 @@
 import { ContactAdvertiser } from '../../../../src/domain/use-cases/userFavoritesAndContacted';
-import { mockFavoriteContactedService } from './mock/FavoriteContactService.mock';
+import { mockFavoriteContactedService } from './mock/favoriteContactService.mock';
 
 describe('Test Contacted Advertiser Use Case', () => {
   test('should call contact advertiser use case', () => {

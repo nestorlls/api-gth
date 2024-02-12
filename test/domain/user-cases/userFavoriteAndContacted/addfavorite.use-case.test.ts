@@ -1,5 +1,5 @@
 import { AddFavorite } from '../../../../src/domain/use-cases/userFavoritesAndContacted';
-import { mockFavoriteContactedService } from './mock/FavoriteContactService.mock';
+import { mockFavoriteContactedService } from './mock/favoriteContactService.mock';
 
 describe('Test Add property as Favorite Use Case', () => {
   test('should call add to favorite use case', () => {

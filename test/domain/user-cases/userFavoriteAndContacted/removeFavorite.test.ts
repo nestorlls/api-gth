@@ -1,5 +1,5 @@
 import { RemoveFavorite } from '../../../../src/domain/use-cases/userFavoritesAndContacted';
-import { mockFavoriteContactedService } from './mock/FavoriteContactService.mock';
+import { mockFavoriteContactedService } from './mock/favoriteContactService.mock';
 
 describe('Test remove favorite Use Case', () => {
   test('should call remove favorite use case', () => {

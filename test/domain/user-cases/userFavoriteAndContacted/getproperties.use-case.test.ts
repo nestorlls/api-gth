@@ -1,5 +1,5 @@
 import { GetFavoritesAndContactedPropeties } from '../../../../src/domain/use-cases/userFavoritesAndContacted';
-import { mockFavoriteContactedService } from './mock/FavoriteContactService.mock';
+import { mockFavoriteContactedService } from './mock/favoriteContactService.mock';
 
 describe('Test Get favorites and contacted properties Use Case', () => {
   test('should call get favorites and contacted properties use case', () => {
