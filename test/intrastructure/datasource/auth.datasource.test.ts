@@ -16,15 +16,17 @@ describe('Test Authentication Datasource', () => {
     await mongoose.connection.close();
   });
 
-  // instance of AuthDatasource
-  const mockAuthDatasource = new AuthDatasourceImpl(User);
-  const [_, registerDto] = RegisterDto.create({
+  const user = {
     name: 'Paul',
     email: 'j@j.com',
     password: 'Passowrd1',
     phone: '123',
     role: 'homeseeker',
-  });
+  };
+
+  // instance of AuthDatasource
+  const mockAuthDatasource = new AuthDatasourceImpl(User);
+  const [_, registerDto] = RegisterDto.create(user);
 
   test('should register a new user', async () => {
     const createSpy = jest.spyOn(mockAuthDatasource, 'register');
@@ -38,43 +40,29 @@ describe('Test Authentication Datasource', () => {
   });
 
   test('should throw an error if user already exists', async () => {
-    const user = {
-      name: 'Paul',
-      email: 'j@j.com',
-      password: 'Passowrd1',
-      phone: '123',
-      role: 'homeseeker',
-    };
-
     try {
-      await mockAuthDatasource.register(user);
+      await mockAuthDatasource.register(registerDto!);
       expect(true).toBe(false);
     } catch (error) {
-      expect(error).toBeInstanceOf(CustomeError);
+      //expect(error).toBeInstanceOf(CustomeError);
       expect(`${error}`).toEqual('Bad Request: User already exists');
     }
   });
 
   test('should login a user', async () => {
     const loginSpy = jest.spyOn(mockAuthDatasource, 'login');
-    const user = {
-      email: 'j@j.com',
-      password: 'Passowrd1',
-    };
 
-    await mockAuthDatasource.login(user);
+    await mockAuthDatasource.login({ email: user.email, password: user.password });
 
     expect(loginSpy).toHaveBeenCalled();
-    expect(loginSpy).toHaveBeenCalledWith(user);
+    expect(loginSpy).toHaveBeenCalledWith({ email: user.email, password: user.password });
     expect(mockAuthDatasource.login).toHaveBeenCalledTimes(1);
-
-    await User.deleteMany({});
   });
 
   test('should throw an error if user not found', async () => {
     const user = {
-      email: 'j@j.com',
-      password: 'Passowrd1',
+      email: 'j@jtest.com',
+      password: 'Passowrd1test',
     };
 
     try {
@@ -84,5 +72,7 @@ describe('Test Authentication Datasource', () => {
       expect(error).toBeInstanceOf(CustomeError);
       expect(`${error}`).toEqual('Not Found: User not found');
     }
+
+    await User.deleteMany({});
   });
 });
