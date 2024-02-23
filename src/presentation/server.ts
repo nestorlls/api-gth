@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
+import cors from 'cors';
 
 interface IServer {
   port: number;
@@ -27,7 +28,8 @@ export class Server {
       .use(express.json())
       .use(express.urlencoded({ extended: true }))
       .use(compression())
-      .use(helmet());
+      .use(helmet())
+      .use(cors());
 
     this.app.use(this.routes);
 
