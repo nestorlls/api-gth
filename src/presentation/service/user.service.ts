@@ -1,7 +1,9 @@
+import { Validator } from '@config/helpers';
 import { UserRepository } from '@domain/abstracts/repository';
 import { UserService } from '@domain/abstracts/services';
 import { PaginationDto, ReturnWithPaginateDto, UpdateUserDto } from '@domain/dtos';
 import { UserEntity } from '@domain/entities';
+import { CustomeError } from '@domain/errors';
 
 export class UserServices implements UserService {
   constructor(private readonly repository: UserRepository) {}
@@ -11,6 +13,7 @@ export class UserServices implements UserService {
   }
 
   async getUserById(id: string): Promise<UserEntity> {
+    this.validateID(id);
     return await this.repository.getUserById(id);
   }
 
@@ -19,6 +22,11 @@ export class UserServices implements UserService {
   }
 
   async deleteUser(id: string): Promise<UserEntity> {
+    this.validateID(id);
     return await this.repository.deleteUser(id);
+  }
+
+  private validateID(id: string) {
+    if (!Validator.isMongoId(id)) throw CustomeError.badRequest('Invalid user Id');
   }
 }
