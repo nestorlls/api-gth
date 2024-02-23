@@ -57,6 +57,7 @@ export class UserDataSourceImpl implements UserDatasource {
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
     }
-    return UserEntity.fromObject(user!);
+    if (!user) throw CustomeError.notFound('User not found');
+    return UserEntity.fromObject(user!.toJSON());
   }
 }
