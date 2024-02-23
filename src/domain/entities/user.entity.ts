@@ -22,7 +22,7 @@ export class UserEntity {
   }
 
   static fromObject(props: { [key: string]: any }): UserEntity {
-    const { id, name, email, phone, role, avatar } = props;
+    const { id, name, email, phone, role, avatar, password } = props;
 
     if (!id) throw CustomeError.badRequest('Missing user id');
     if (!Validator.isMongoId(id)) throw CustomeError.badRequest('Invalid user id');
@@ -32,6 +32,6 @@ export class UserEntity {
     if (!role) throw CustomeError.badRequest('Missing role');
     if (avatar === undefined) throw CustomeError.badRequest('Missing avatar');
 
-    return new UserEntity({ ...props, phone: Number(phone) } as UserEntity);
+    return new UserEntity({ id, name, email, role, avatar, password, phone: Number(phone) });
   }
 }
