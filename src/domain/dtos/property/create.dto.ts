@@ -52,11 +52,31 @@ export class CreatePropertyDto {
       images = [],
     } = props;
 
+    const fields = {
+      type: 'type',
+      address: 'address',
+      rent: 'rent',
+      maintance: 'maintance',
+      price: 'price',
+      propertyType: 'propertyType',
+      bedrooms: 'bedrooms',
+      bathrooms: 'bathrooms',
+      area: 'area',
+      petAllowed: 'petAllowed',
+      description: 'description',
+      status: 'status',
+      user: 'user',
+    } as any;
+
     let petAvailable = petAllowed;
     let hasStatus = status;
 
     const validTypes = ['sale', 'rent'];
     const validPropertyTypes = ['flat', 'house', 'apartment'];
+
+    for (const field in fields) {
+      if (!props[field]) return [CustomeError.badRequest(`Missing '${fields[field]}' in create property dto`)];
+    }
 
     if (typeof petAllowed !== 'boolean') petAvailable = petAllowed === 'true';
     if (!type) return [CustomeError.badRequest('Type is required in create property dto')];
@@ -77,7 +97,7 @@ export class CreatePropertyDto {
     if (!validPropertyTypes.includes(propertyType))
       return [
         CustomeError.badRequest(
-          `${propertyType} is not a valid type in create property dto. Valid types: ${validPropertyTypes.join(', ')}`,
+          `'${propertyType}' is not a valid type in create property dto. Valid types: ${validPropertyTypes.join(', ')}`,
         ),
       ];
     if (bedrooms === undefined) return [CustomeError.badRequest('Rooms is required in create property dto')];
