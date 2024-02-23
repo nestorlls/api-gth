@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { User } from '@data/mongo/models';
+import { Property, User } from '@data/mongo/models';
 import { UserDataSourceImpl } from '@infrastructure/datasource';
 import { UserRepositoryImpl } from '@infrastructure/repository';
 import { AuthMiddleware } from '@presentation/middlewares';
@@ -11,7 +11,7 @@ export class UserRoutes {
   static get routes(): Router {
     const router = Router();
 
-    const datasource = new UserDataSourceImpl(User);
+    const datasource = new UserDataSourceImpl(User, Property);
     const repository = new UserRepositoryImpl(datasource);
     const service = new UserServices(repository);
     const controller = new UserController(service);

@@ -1,11 +1,14 @@
-import { User } from '@data/mongo/models';
+import { Property, User } from '@data/mongo/models';
 import { PaginationDto, ReturnWithPaginateDto, UpdateUserDto } from '@domain/dtos';
 import { CustomeError } from '@domain/errors';
 import { UserEntity } from '@domain/entities';
 import { UserDatasource } from '@domain/abstracts/datasource';
 
 export class UserDataSourceImpl implements UserDatasource {
-  constructor(private readonly model: typeof User) {}
+  constructor(
+    private readonly model: typeof User,
+    private readonly property: typeof Property,
+  ) {}
 
   async getAllUsers(dto: PaginationDto): Promise<ReturnWithPaginateDto<UserEntity>> {
     const { page, limit } = dto;
@@ -53,6 +56,7 @@ export class UserDataSourceImpl implements UserDatasource {
   async deleteUser(id: string): Promise<UserEntity> {
     let user;
     try {
+      await this.property.deleteMany({ user: id });
       user = await this.model.findByIdAndDelete({ _id: id });
     } catch (error) {
       throw CustomeError.internalServerError(`${error}`);
